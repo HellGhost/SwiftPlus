@@ -1,5 +1,5 @@
 //
-//  SPQueue.swift
+//  Queue.swift
 //  Created by Vladyslav Yerofieiev on 14.10.2020.
 //  Copyright © 2020 MorayGames. All rights reserved.
 //
@@ -7,8 +7,8 @@
 import Foundation
 
 /// Canonical LIFO Queue
-@frozen public struct SPQueue<Element> {
-    private var data: [Element] = []
+public struct Queue<Element> {
+    private var data: LinkedList<Element> = []
     
     // MARK: - Initializers
     public init() { }
@@ -28,7 +28,7 @@ import Foundation
     /// - Complexity: O(1) on average, over many calls to `enqueue(_:)` on the
     ///   same queue.
     public mutating func enqueue(_ object: Element) {
-        data.append(object)
+        data.addLast(object)
     }
     
     /// Insert elements to queue
@@ -46,12 +46,12 @@ import Foundation
     ///
     /// - Complexity: O(1)
     public mutating func dequeue() -> Element? {
-        return data.popLast()
+        return data.pollFirst()
     }
     
     /// Remove all values from the queue.
     public mutating func clearAll() {
-        data.removeAll()
+        data.clearAll()
     }
 
     /// The top element of the collection if the collection is not
@@ -64,22 +64,22 @@ import Foundation
     /// - Parameter object: Object
     /// - Returns: `true` if object exist, otherwise `false`
     public func isExist(_ object: Element) -> Bool where Element: Equatable {
-       return data.firstIndex(of: object) != nil
+       return data.indexFromEnd(of: object) != nil
     }
 }
 
 
-extension SPQueue: Sequence {
+extension Queue: Sequence {
 }
 
-extension SPQueue: CustomStringConvertible {
+extension Queue: CustomStringConvertible {
     /// A textual representation of the queue and its elements.
     public var description: String {
-        return "[" + self.data.reversed().map { "\($0)" }.joined(separator: " → ") + "]"
+        return "[" + self.data.map { "\($0)" }.joined(separator: " ← ") + "]"
     }
 }
 
-extension SPQueue: IteratorProtocol {
+extension Queue: IteratorProtocol {
     /// Advance to the next element and return it, or `nil` if no next
     /// element exists.
     public mutating func next() -> Element? {
@@ -87,7 +87,7 @@ extension SPQueue: IteratorProtocol {
     }
 }
 
-extension SPQueue {
+extension Queue {
     // A Boolean value indicating whether the collection is empty.
     ///
     /// When you need to check whether your collection is empty, use the
@@ -115,7 +115,7 @@ extension SPQueue {
     }
 }
 
-extension SPQueue: ExpressibleByArrayLiteral {
+extension Queue: ExpressibleByArrayLiteral {
     /// Init with literals
     /// - Parameter elements: element
     public init(arrayLiteral elements: Element...) {
