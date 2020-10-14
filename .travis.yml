@@ -4,3 +4,4 @@ xcode_sdk: iphonesimulator14.0
 script:
     - swift build
     - swift test --enable-code-coverage
+    - xcrun llvm-cov report \ .build/x86_64-apple-macosx/debug/SwiftPlusPackageTests.xctest/Contents/MacOS/SwiftPlusPackageTests \ -instr-profile=.build/x86_64-apple-macosx/debug/codecov/default.profdata \ -ignore-filename-regex=".build|Tests" -use-color 

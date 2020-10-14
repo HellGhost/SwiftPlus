@@ -1,0 +1,17 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    commander (4.5.2)
+      highline (~> 2.0.0)
+    coveralls-gcov (0.1.2)
+      commander
+    highline (2.0.3)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  coveralls-gcov
+
+BUNDLED WITH
+   1.17.2
