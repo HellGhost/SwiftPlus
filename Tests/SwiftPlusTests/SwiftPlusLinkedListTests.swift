@@ -112,6 +112,30 @@ final class SwiftPlusLinkedListTests: XCTestCase {
         XCTAssertEqual(list.count, 0)
     }
     
+    func testInsertion() {
+        var list: LinkedList = [1, 2, 3]
+        list.insert(object: 4, at: 0)
+        XCTAssertEqual(list.description, "[4 ←→ 1 ←→ 2 ←→ 3]")
+        list.insert(object: 5, at: 3)
+        XCTAssertEqual(list.description, "[4 ←→ 1 ←→ 2 ←→ 5 ←→ 3]")
+        list.insert(object: 6, at: 2)
+        XCTAssertEqual(list.description, "[4 ←→ 1 ←→ 6 ←→ 2 ←→ 5 ←→ 3]")
+    }
+    
+    func testSubscript() {
+        var list: LinkedList = ["Test", "Get", "Subscript"]
+        XCTAssertEqual(list[0], "Test")
+        XCTAssertEqual(list[1], "Get")
+        XCTAssertEqual(list[2], "Subscript")
+        XCTAssertEqual(list.description, "[Test ←→ Get ←→ Subscript]")
+        list[1] = "Set"
+        
+        XCTAssertEqual(list[0], "Test")
+        XCTAssertEqual(list[1], "Set")
+        XCTAssertEqual(list[2], "Subscript")
+        XCTAssertEqual(list.description, "[Test ←→ Set ←→ Subscript]")
+    }
+    
     static var allTests = [
         ("testCreation", testCreation),
         ("testAddToLast", testAddToLast),

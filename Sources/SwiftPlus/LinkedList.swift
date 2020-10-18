@@ -84,6 +84,24 @@ public struct LinkedList<Element> {
         objects.forEach { addLast($0) }
     }
     
+    
+    /// Insert object to position
+    /// - Parameters:
+    ///   - object: Object to insert
+    ///   - index: Position
+    public mutating func insert(object: Element, at index: Int) {
+        precondition(index < count, "Index out of range")
+        if index == 0 {
+            addFirst(object)
+            return
+        }
+        
+        let entryAtIndex = entry(by: index)
+        entryAtIndex?.previous?.next = Entry(element: object,
+                                      previous: entryAtIndex?.previous,
+                                      next: entryAtIndex)
+    }
+    
     // MARK: - Remove elements
     
     /// Removes and returns the first element from this list.
@@ -140,6 +158,30 @@ public struct LinkedList<Element> {
     /// - Complexity: O(1)
     public var last: Element? {
         return tail?.element
+    }
+    
+    subscript (index: Int) -> Element {
+        get {
+            precondition(index < count, "Index out of range")
+            let entryByIndex = entry(by: index)
+            return entryByIndex!.element
+        }
+        set {
+            precondition(index < count, "Index out of range")
+            let entryByIndex = entry(by: index)
+            entryByIndex!.element = newValue
+        }
+    }
+    
+    private func entry(by index: Int) -> Entry<Element>? {
+        var i = 0
+        var next = head
+        while next != nil, i != index {
+            next = next?.next
+            i+=1
+        }
+
+        return next
     }
     
     /// Returns the index of the first occurrence of the specified element in this list statring from begin
